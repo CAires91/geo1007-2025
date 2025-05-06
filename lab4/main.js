@@ -47,16 +47,16 @@ var map = L.map("map-canvas", {
 
 // 2. aerial photo * not working at this moment (see Assignment)
 //    - can be switched on/off by toggle thru L.control.layers (see below in this script)
-var wms_aerial_url = "https://geodata1.nationaalgeoregister.nl/luchtfoto/wms?";
+var wms_aerial_url = "https://service.pdok.nl/hwh/luchtfotorgb/wms/v1_0";
 var basemap_aerial = new L.tileLayer.wms(wms_aerial_url, {
-  layers: ["luchtfoto_png"],
+  layers: ["Actueel_orthoHR"],
   styles: "",
   format: "image/png",
   transparent: true,
   pointerCursor: true,
 });
 basemap_aerial.getAttribution = function () {
-  return 'Luchtfoto WMS <a href="https://www.kadaster.nl">Kadaster</a>.';
+  return 'Luchtfoto WMS © <a href="https://www.pdok.nl">Kadaster</a>.';
 };
 
 // 3. a thematic WMS as overlay map
@@ -71,8 +71,60 @@ var sound = new L.tileLayer.wms(wms_sound_url, {
   pointerCursor: true,
 });
 
+// 4. parcels
+var wms_parcels_url = "http://localhost:8080/geoserver/delft/wms";
+var parcels = new L.tileLayer.wms(wms_parcels_url, {
+  layers: ["delft:parcels"], 
+  styles: "",
+  format: "image/png",
+  transparent: true,
+  attribution:
+    '© TU Delft',
+  pointerCursor: true,
+});
+
+// 5. top10nl 
+var wms_top10nl_url = "http://localhost:8080/geoserver/delft/wms";
+var top10nl = new L.tileLayer.wms(wms_top10nl_url, {
+  layers: ["delft:GEBOUW_VLAK", "delft:SPOORBAANDEEL_LIJN", "delft:TERREIN_VLAK", "delft:WATERDEEL_VLAK", "delft:WEGDEEL_VLAK"], 
+  styles: "",
+  format: "image/png",
+  transparent: true,
+  attribution:
+    '© TU Delft',
+  pointerCursor: true,
+});
+
+// 6. change default style
+var wms_paths_url = "http://localhost:8080/geoserver/delft/wms";
+var weg = new L.tileLayer.wms(wms_paths_url, {
+  layers: ["delft:WEGDEEL_VLAK"], 
+  styles: "simple_roads",
+  format: "image/png",
+  transparent: true,
+  attribution:
+    '© TU Delft',
+  pointerCursor: true,
+});
+
+// 7. PDOK Actueel Hoogtebestand Nederland (AHN)
+var wms_Hoogtebestand_url = "https://service.pdok.nl/rws/ahn/wms/v1_0";
+var Hoogtebestand = new L.tileLayer.wms(wms_Hoogtebestand_url, {
+  layers: ["dtm_05m"], 
+  styles: "",
+  format: "image/png",
+  transparent: true,
+  attribution:
+    '© PDOK',
+  pointerCursor: true,
+});
+
 var overlays = {
   "Road noise [WMS]": sound,
+  "Parcels [WMS]": parcels,
+  "TOP10NL (Gebouwen, Wegen, Water, Terrein, Spoorbaandeel Lijn) [WMS]": top10nl,
+  "Wegdeel [WMS]": weg,
+  "Hoogtebestand DTM 0.5 [WMS]": Hoogtebestand,
 };
 
 var baseLayers = {
