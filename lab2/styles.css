@@ -1,0 +1,42 @@
+body {
+  background: #2e2e2e;
+  font-family: Arial, sans-serif;
+  color: #f0f0f0;
+  padding: 20px;
+}
+
+ol {
+	border: 2px solid white;
+	padding: 15px 15px 15px 40px;
+	background-color: #444; /* Slightly lighter background for the lists */
+	border-radius: 8px; /* Rounded corners */
+	margin-bottom: 20px;
+	
+}
+
+.list-a {
+  font-family: "Times New Roman", serif;
+  border: 2px solid white;
+  color: #ffe066; 
+}
+
+.list-b {
+  font-family: "Arial", sans-serif;
+  border: 2px solid white;
+  color: #90ee90;
+  
+}
+
+p {
+  font-size: 20px;
+  border: 5px solid white;
+  color: #ff4c4c; 
+  padding: 10px;
+  background-color: #333;
+  border-radius: 8px;
+}
+
+h1, h2 {
+  color: white;
+  margin-top: 30px;
+}

@@ -4,6 +4,12 @@ var allFunctions = function () {
   console.log("entering all functions");
   var createTableFromJsonResponse = function (data) {
     document.querySelector("main .forDebug").append(JSON.stringify(data));
+    // Clear existing table results before showing new data
+    var existingRows = document.querySelectorAll("#resultsTable tr");
+    for (var i = 1; i < existingRows.length; i++) {
+      existingRows[i].remove();
+    }
+
 
     if (
       typeof data.postalcodes !== "undefined" &&
@@ -91,11 +97,15 @@ var allFunctions = function () {
         searchFromInput();
       }
     });
-  // };
+  //};
 
   // document.addEventListener("DOMContentLoaded", allFunctions);
 
   //   "use strict";
+
+
+
+
   var anotherGeonamesRequest = function (latitude, longitude) {
     var baseUrl =
       "http://api.geonames.org/findNearestIntersectionOSM?username=bktudelft";
@@ -103,6 +113,11 @@ var allFunctions = function () {
     var requestUrl = baseUrl + params;
     var request = new XMLHttpRequest();
     request.open("GET", requestUrl, true);
+
+    // remove text area
+    var oldTextarea = document.querySelector("main .forDebug2 textarea");
+    if (oldTextarea) oldTextarea.remove();
+
     request.onload = function () {
       if (this.status >= 200 && this.status < 400) {
         var textarea = document.createElement("textarea");
@@ -127,13 +142,17 @@ var allFunctions = function () {
   };
 
   var handleXMLResponse = function (data) {
+    var table = document.querySelector("#xmlDataAsTable");
+ 	  // Remove existing XML
+    table.innerHTML = ""; 
+
     var feature = data.getElementsByTagName("intersection")[0];
     if (typeof feature !== "undefined" && feature.childNodes.length > 0) {
       var headerRow = document.createElement("tr");
       headerRow.innerHTML = "<th>Property name</th><th>value</th>";
       document.querySelector("#xmlDataAsTable").append(headerRow);
       for (var i = 0; i < feature.childNodes.length; i++) {
-        if (feature.childNodes[i].nodeName != "#text") {
+        if (feature.childNodes[i].nodeName != "#text"){
           var row = document.createElement("tr");
           row.style.display = "none";
           row.innerHTML =
@@ -155,6 +174,12 @@ var allFunctions = function () {
   };
 
   var getAndDisplayMap = function (wms_request) {
+	// Remove existing maps
+    var existingMap = document.querySelector("main .mapDiv img");
+    if (existingMap) {
+      existingMap.remove();
+    }  
+	
     var img = document.createElement("img");
     img.style.display = "none";
     img.src = wms_request;
@@ -297,6 +322,8 @@ var allFunctions = function () {
       requestWMSmap(lat, lng);
     }
   });
+};
 
 document.addEventListener("DOMContentLoaded", allFunctions);
+
 
