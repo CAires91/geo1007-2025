@@ -135,8 +135,17 @@
     // mdv 2018 geoweb course: switch default osmbuildings vector layer off
     //osmb.addGeoJSONTiles('https://{s}.data.osmbuildings.org/0.2/anonymous/tile/{z}/{x}/{y}.json');
 
-    var url_wfs = 'https://varioscale.bk.tudelft.nl/geoserver/geo1007/ows?';
-    var featuretype = 'geo1007:building';
+    var url_wfs = 'http://localhost:8080/geoserver/wfs?';
+    var featuretype = 'geo1007:pand_2d_4326';
+    var cql_filter = 'bouwjaar < 1650';
+
+    var wfs_url_filtered = url_wfs +
+      'service=WFS&version=1.0.0&request=GetFeature' +
+      '&typeName=' + featuretype +
+      '&outputFormat=application/json' +
+      '&CQL_FILTER=' + encodeURIComponent(cql_filter) +
+      '&srsName=EPSG:4326';
+
     var geometryName = 'geo1007:the_geom';
     // These are the basic parameters for a WFS request 
     //var params = 'service=WFS&version=2.0.0&request=GetFeature&outputFormat=application/json&srsName=EPSG:4326';
@@ -169,7 +178,8 @@
 
 
     // WFS request and OSM options are passed on to OSM addGeoJSONTiles
-    osmb.addGeoJSONTiles(url_wfs + params, options);
+    //osmb.addGeoJSONTiles(url_wfs + params, options);
+    osmb.addGeoJSONTiles(wfs_url_filtered, options);
 
 
     //************************************************************
